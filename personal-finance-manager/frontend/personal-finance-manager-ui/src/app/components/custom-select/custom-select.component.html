@@ -1,0 +1,49 @@
+<div class="cs-root" [class.open]="isOpen()" [class.has-value]="hasValue" [class.cs-invalid]="invalid" [class.cs-disabled]="isDisabled()">
+
+  <button type="button" class="cs-trigger" (click)="toggle()">
+    <span class="cs-label" [class.cs-placeholder]="!hasValue">{{ selectedLabel }}</span>
+    <svg class="cs-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </button>
+
+  @if (isOpen()) {
+    <div class="cs-dropdown" role="listbox">
+
+      <!-- Placeholder option (always shown at top when no value selected) -->
+      @if (placeholder && !hasValue) {
+        <div class="cs-option cs-option--placeholder" role="option" aria-disabled="true">{{ placeholder }}</div>
+      }
+
+      <!-- Empty message -->
+      @if (isEmpty && emptyMessage) {
+        <div class="cs-empty">{{ emptyMessage }}</div>
+      }
+
+      <!-- Flat options -->
+      @for (opt of options; track opt.value) {
+        <div
+          class="cs-option"
+          [class.cs-option--selected]="isSelected(opt.value)"
+          role="option"
+          (click)="select(opt.value)"
+        >{{ opt.label }}</div>
+      }
+
+      <!-- Grouped options -->
+      @for (group of groups; track group.label) {
+        <div class="cs-group-label">{{ group.label }}</div>
+        @for (opt of group.options; track opt.value) {
+          <div
+            class="cs-option cs-option--grouped"
+            [class.cs-option--selected]="isSelected(opt.value)"
+            role="option"
+            (click)="select(opt.value)"
+          >{{ opt.label }}</div>
+        }
+      }
+
+    </div>
+  }
+
+</div>

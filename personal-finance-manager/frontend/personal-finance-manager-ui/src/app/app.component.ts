@@ -1,12 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ToastComponent } from './components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, ToastComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'personal-finance-manager-ui';
+  readonly navLinks = [
+    { label: 'Summary',      path: '/summary' },
+    { label: 'Transactions', path: '/transactions' },
+    { label: 'Categories',   path: '/categories' },
+    { label: 'Budgets',      path: '/budgets' },
+  ];
 }

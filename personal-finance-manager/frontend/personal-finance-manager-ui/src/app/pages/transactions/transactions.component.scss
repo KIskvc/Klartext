@@ -1,0 +1,104 @@
+.filter-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.filter-field {
+  width: 160px;
+}
+
+// ─── Table ────────────────────────────────────────────────────────────────────
+
+.table-wrap {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.tx-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 12px 16px;
+    text-align: left;
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 14px;
+    color: var(--color-text-primary);
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.tx-row {
+  transition: background var(--transition-fast);
+
+  &:hover {
+    background: var(--color-background);
+
+    .cell-actions .icon-btn {
+      opacity: 1;
+    }
+  }
+}
+
+.col-date { width: 110px; }
+.col-cat  { width: 160px; }
+.col-amount { width: 120px; }
+.col-actions { width: 88px; }
+
+.cell-date {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.cell-desc {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cell-amount {
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+
+  &.amount-income { color: #1a7a35; }
+  &.amount-expense { color: var(--color-warn); }
+}
+
+th.col-amount {
+  text-align: right;
+}
+
+.cell-actions {
+  text-align: right;
+  padding-right: 12px !important;
+
+  .icon-btn {
+    opacity: 0;
+    transition: opacity var(--transition-fast), color var(--transition-fast), background var(--transition-fast);
+  }
+}
+

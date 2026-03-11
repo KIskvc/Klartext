@@ -1,0 +1,94 @@
+// ─── Period selector ──────────────────────────────────────────────────────────
+
+.period-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: var(--space-xl);
+}
+
+.period-field {
+  width: 160px;
+}
+
+// ─── Budget grid ──────────────────────────────────────────────────────────────
+
+.budget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: var(--space-md);
+}
+
+.budget-card {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+// ─── Card header ──────────────────────────────────────────────────────────────
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cat-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  opacity: 0.35;
+  pointer-events: none;
+  transition: opacity var(--transition-fast), color var(--transition-fast), background var(--transition-fast);
+  flex-shrink: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.dirty {
+    opacity: 1;
+    color: var(--color-primary);
+    pointer-events: auto;
+
+    &:hover {
+      background: rgba(0, 113, 227, 0.08);
+    }
+
+    &:active {
+      transform: scale(0.92);
+    }
+  }
+
+  &:disabled:not(.dirty) {
+    cursor: default;
+  }
+}
+
+// ─── Hint ─────────────────────────────────────────────────────────────────────
+
+.card-hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  letter-spacing: -0.01em;
+  margin-top: -6px;
+}

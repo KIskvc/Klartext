@@ -1,0 +1,206 @@
+<!-- ─── Hero ─────────────────────────────────────────────────────────────── -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Your Finances,<br>at a Glance.</h1>
+    <p class="hero-subtitle">
+      Track your spending, monitor your savings, and take control of your financial future.
+    </p>
+  </div>
+</section>
+
+<!-- ─── Main content ──────────────────────────────────────────────────────── -->
+<section class="page-content app-container">
+
+  <app-month-selector
+    [(year)]="selectedYear"
+    [(month)]="selectedMonth"
+    (periodChange)="onPeriodChange()"
+  />
+
+  @if (loading()) {
+    <div class="state-center"><div class="spinner"></div></div>
+  }
+
+  @else if (error()) {
+    <div class="state-center state-error">
+      <div class="state-error-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <p class="state-error-msg">Failed to load summary.</p>
+      <button class="btn-reload" (click)="loadSummary()" title="Retry">
+        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      </button>
+    </div>
+  }
+
+  @else if (!hasData()) {
+    <div class="state-center">
+      <div class="empty-icon-wrap">
+        <svg viewBox="0 0 24 24"><rect x="3" y="12" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="17" y="4" width="4" height="16" rx="1"/></svg>
+      </div>
+      <p class="empty-title">Keine Daten für diesen Monat</p>
+      <p class="empty-subtitle">Füge Transaktionen hinzu um eine Übersicht zu sehen.</p>
+    </div>
+  }
+
+  @else {
+
+    <!-- Metric cards -->
+    <div class="metric-grid">
+
+      <div class="metric-card card metric-card--income">
+        <div class="metric-icon metric-icon--income">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        </div>
+        <span class="metric-label">Gesamteinnahmen</span>
+        <span class="metric-value metric-value--income">{{ formatCurrency(summary()!.totalIncome) }}</span>
+      </div>
+
+      <div class="metric-card card metric-card--expense">
+        <div class="metric-icon metric-icon--expense">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </div>
+        <span class="metric-label">Gesamtausgaben</span>
+        <span class="metric-value metric-value--expense">{{ formatCurrency(summary()!.totalExpenses) }}</span>
+      </div>
+
+      <div class="metric-card card metric-card--balance">
+        <div class="metric-icon"
+          [class.metric-icon--balance]="summary()!.balance >= 0"
+          [class.metric-icon--negative]="summary()!.balance < 0">
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="8" x2="19" y2="8"/><line x1="5" y1="16" x2="13" y2="16"/></svg>
+        </div>
+        <span class="metric-label">Saldo</span>
+        <span class="metric-value"
+          [class.metric-value--positive]="summary()!.balance > 0"
+          [class.metric-value--negative]="summary()!.balance < 0">
+          {{ formatCurrency(summary()!.balance) }}
+        </span>
+      </div>
+
+    </div>
+
+    <!-- Category breakdown -->
+    <h2 class="section-heading">Kategorie-Aufschlüsselung</h2>
+    <div class="breakdown-wrap">
+      <table class="breakdown-table">
+        <thead>
+          <tr>
+            <th>Kategorie</th>
+            <th>Typ</th>
+            <th class="col-amount">Betrag</th>
+            <th class="col-budget">Budget</th>
+            <th class="col-diff">Differenz</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of summary()!.categoryBreakdowns; track row.categoryId) {
+            <tr>
+              <td class="col-name">{{ row.categoryName }}</td>
+              <td>
+                <span class="badge"
+                  [class.badge-income]="row.categoryType === 'Income'"
+                  [class.badge-expense]="row.categoryType === 'Expense'">
+                  {{ row.categoryType === 'Income' ? 'Einnahme' : 'Ausgabe' }}
+                </span>
+              </td>
+              <td class="col-amount"
+                [class.amount-income]="row.categoryType === 'Income'"
+                [class.amount-expense]="row.categoryType === 'Expense'">
+                {{ formatCurrency(row.totalAmount) }}
+              </td>
+              <td class="col-budget">
+                {{ row.budgetAmount !== null ? formatCurrency(row.budgetAmount) : '–' }}
+              </td>
+              <td class="col-diff">
+                @if (row.budgetDifference === null) {
+                  <span class="diff-none">–</span>
+                } @else if (row.budgetDifference >= 0) {
+                  <span class="diff-ok">{{ formatDiff(row.budgetDifference) }}</span>
+                } @else {
+                  <span class="diff-over">
+                    <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    {{ formatDiff(row.budgetDifference) }}
+                  </span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Highest expense -->
+    @if (summary()!.highestExpenseCategory !== null) {
+      <div class="top-expense-card card">
+        <div class="top-expense-icon">
+          <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <div class="top-expense-body">
+          <span class="top-expense-label">Größte Ausgabe</span>
+          <span class="top-expense-value">
+            {{ summary()!.highestExpenseCategory!.categoryName }}
+            <span class="top-expense-amount">{{ formatCurrency(summary()!.highestExpenseCategory!.amount) }}</span>
+          </span>
+        </div>
+      </div>
+    }
+
+  }
+
+</section>
+
+<!-- ─── Banking Connect ────────────────────────────────────────────────────── -->
+<section class="connect-section">
+  <div class="app-container connect-inner">
+
+    <span class="connect-badge">Coming Soon</span>
+
+    <div class="connect-text">
+      <h2 class="connect-title">Connect your bank account</h2>
+      <p class="connect-subtitle">
+        Import transactions automatically — directly from your bank.
+        No manual entry, always up to date.
+      </p>
+    </div>
+
+    <div class="banks-ticker-wrap">
+      <div class="banks-ticker">
+        <span class="bank-pill" style="color:#CC0000">Erste Bank</span>
+        <span class="bank-dot">·</span>
+        <span class="bank-pill" style="color:#c8970a">Raiffeisen</span>
+        <span class="bank-dot">·</span>
+        <span class="bank-pill" style="color:#E2001A">Bank Austria</span>
+        <span class="bank-dot">·</span>
+        <span class="bank-pill" style="color:#6836CC">Revolut</span>
+        <span class="bank-dot">·</span>
+        <span class="bank-pill" style="color:#1A1A2E">N26</span>
+        <span class="bank-dot">·</span>
+        <span class="bank-pill" style="color:#E2001A">BAWAG</span>
+        <span class="bank-dot">·</span>
+        <!-- duplicate for seamless loop -->
+        <span class="bank-pill" style="color:#CC0000">Erste Bank</span>
+        <span class="bank-dot">·</span>
+        <span class="bank-pill" style="color:#c8970a">Raiffeisen</span>
+        <span class="bank-dot">·</span>
+        <span class="bank-pill" style="color:#E2001A">Bank Austria</span>
+        <span class="bank-dot">·</span>
+        <span class="bank-pill" style="color:#6836CC">Revolut</span>
+        <span class="bank-dot">·</span>
+        <span class="bank-pill" style="color:#1A1A2E">N26</span>
+        <span class="bank-dot">·</span>
+        <span class="bank-pill" style="color:#E2001A">BAWAG</span>
+        <span class="bank-dot">·</span>
+      </div>
+    </div>
+
+    <button class="btn btn-primary connect-cta">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      Get notified
+    </button>
+
+  </div>
+</section>

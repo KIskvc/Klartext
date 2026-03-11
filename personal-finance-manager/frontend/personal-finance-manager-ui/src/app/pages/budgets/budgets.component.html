@@ -1,0 +1,104 @@
+<div class="page-container app-container">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Budgets</h1>
+      <p class="page-subtitle">Set monthly spending limits for your expense categories.</p>
+    </div>
+  </div>
+
+  <!-- Period selector -->
+  <div class="period-row">
+    <div class="period-field">
+      <app-custom-select
+        [options]="yearOptions"
+        [(ngModel)]="selectedYear"
+        (ngModelChange)="onPeriodChange()"
+      />
+    </div>
+    <div class="period-field">
+      <app-custom-select
+        [options]="monthOptions"
+        [(ngModel)]="selectedMonth"
+        (ngModelChange)="onPeriodChange()"
+      />
+    </div>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="state-center"><div class="spinner"></div></div>
+  }
+
+  <!-- Error -->
+  @else if (error()) {
+    <div class="state-center state-error">
+      <div class="state-error-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <p class="state-error-msg">Failed to load budgets.</p>
+      <button class="btn-reload" (click)="loadData()" title="Retry">
+        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      </button>
+    </div>
+  }
+
+  <!-- No expense categories -->
+  @else if (cards.length === 0) {
+    <div class="state-center">
+      <div class="empty-icon-wrap">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <p class="empty-title">No expense categories</p>
+      <p class="empty-subtitle">Create expense categories first to set spending limits.</p>
+    </div>
+  }
+
+  <!-- Budget grid -->
+  @else {
+    <div class="budget-grid">
+      @for (card of cards; track card.categoryId) {
+        <div class="budget-card card">
+
+          <div class="card-top">
+            <span class="cat-name">{{ card.categoryName }}</span>
+            <button
+              class="save-btn"
+              [class.dirty]="isDirty(card)"
+              [disabled]="card.saving || !isDirty(card)"
+              (click)="save(card)"
+              title="Save budget"
+            >
+              @if (card.saving) {
+                <div class="spinner spinner--sm"></div>
+              } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              }
+            </button>
+          </div>
+
+          <div class="input-wrapper">
+            <input
+              class="input-pill"
+              type="number"
+              min="0.01"
+              step="0.01"
+              placeholder="Kein Budget gesetzt"
+              [(ngModel)]="card.inputAmount"
+            />
+            <span class="input-suffix">€</span>
+          </div>
+
+          @if (card.savedAmount !== null) {
+            <span class="card-hint">Budget: {{ formatAmount(card.savedAmount!) }}</span>
+          }
+
+        </div>
+      }
+    </div>
+  }
+
+</div>

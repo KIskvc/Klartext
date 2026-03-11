@@ -1,0 +1,346 @@
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+
+.hero-section {
+  background-color: var(--color-surface);
+  padding: clamp(40px, 8vw, 80px) 22px clamp(32px, 6vw, 64px);
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-family: var(--font-family-display);
+  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-md);
+}
+
+.hero-subtitle {
+  font-size: clamp(15px, 2.5vw, 21px);
+  font-weight: 400;
+  line-height: 1.38;
+  color: var(--color-text-secondary);
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+// ─── Page content ─────────────────────────────────────────────────────────────
+
+.page-content {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-2xl);
+}
+
+// ─── Metric grid ──────────────────────────────────────────────────────────────
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.metric-card {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-left: 3px solid var(--color-border);
+
+  &--income  { border-left-color: var(--color-success); }
+  &--expense { border-left-color: var(--color-warn); }
+  &--balance { border-left-color: var(--color-primary); }
+}
+
+.metric-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &--income   { background: rgba(52, 199, 89, 0.12);  color: #1a7a35; }
+  &--expense  { background: rgba(255, 59, 48, 0.10);  color: var(--color-warn); }
+  &--balance  { background: rgba(0, 113, 227, 0.10);  color: var(--color-primary); }
+  &--negative { background: rgba(255, 59, 48, 0.10);  color: var(--color-warn); }
+}
+
+.metric-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.metric-value {
+  font-family: var(--font-family-display);
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--color-text-primary);
+
+  &--income   { color: #1a7a35; }
+  &--expense  { color: var(--color-warn); }
+  &--positive { color: var(--color-primary); }
+  &--negative { color: var(--color-warn); }
+}
+
+// ─── Section heading ──────────────────────────────────────────────────────────
+
+.section-heading {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 var(--space-md);
+}
+
+// ─── Breakdown table ──────────────────────────────────────────────────────────
+
+.breakdown-wrap {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  margin-bottom: var(--space-xl);
+}
+
+.breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 12px 16px;
+    text-align: left;
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 14px;
+    color: var(--color-text-primary);
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--color-background); }
+}
+
+.col-name { font-weight: 500; }
+
+.col-amount, .col-budget, .col-diff {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+th.col-amount, th.col-budget, th.col-diff { text-align: right; }
+
+.amount-income  { color: #1a7a35; font-weight: 600; }
+.amount-expense { color: var(--color-text-primary); font-weight: 600; }
+
+.diff-ok   { color: #1a7a35; font-weight: 500; }
+.diff-none { color: var(--color-text-tertiary); }
+
+.diff-over {
+  color: var(--color-warn);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+
+  svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+}
+
+// ─── Top expense card ─────────────────────────────────────────────────────────
+
+.top-expense-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: var(--space-md) var(--space-lg);
+}
+
+.top-expense-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 59, 48, 0.08);
+  color: var(--color-warn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.top-expense-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.top-expense-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.top-expense-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.top-expense-amount {
+  font-family: var(--font-family-display);
+  font-size: 17px;
+  color: var(--color-warn);
+}
+
+// ─── Banking Connect Section ──────────────────────────────────────────────────
+
+.connect-section {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: clamp(56px, 9vw, 96px) 22px;
+}
+
+.connect-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 22px;
+}
+
+.connect-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 113, 227, 0.08);
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.connect-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 500px;
+}
+
+.connect-title {
+  font-family: var(--font-family-display);
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.connect-subtitle {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.banks-ticker-wrap {
+  width: 100%;
+  max-width: 560px;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+.banks-ticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  white-space: nowrap;
+  animation: ticker-scroll 18s linear infinite;
+}
+
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.bank-pill {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.bank-dot {
+  font-size: 15px;
+  color: var(--color-text-tertiary);
+  font-weight: 400;
+}
+
+.connect-cta { margin-top: 4px; }

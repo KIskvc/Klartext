@@ -1,0 +1,270 @@
+### Personal Finance Manager — Sample Requests
+### Compatible with: VS Code REST Client, Visual Studio, JetBrains HTTP Client, Scalar import
+### Usage: Replace @categoryId / @transactionId / @budgetId with real UUIDs from previous responses
+
+@baseUrl = http://localhost:5068
+@contentType = application/json
+
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  CATEGORIES                                                                  ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+### Create income category — Gehalt
+# @name createGehalt
+POST {{baseUrl}}/api/categories
+Content-Type: {{contentType}}
+
+{
+  "name": "Gehalt",
+  "type": "Income"
+}
+
+###
+
+### Create income category — Sonstiges Einkommen
+POST {{baseUrl}}/api/categories
+Content-Type: {{contentType}}
+
+{
+  "name": "Sonstiges Einkommen",
+  "type": "Income"
+}
+
+###
+
+### Create expense category — Lebensmittel
+# @name createLebensmittel
+POST {{baseUrl}}/api/categories
+Content-Type: {{contentType}}
+
+{
+  "name": "Lebensmittel",
+  "type": "Expense"
+}
+
+###
+
+### Create expense category — Miete
+POST {{baseUrl}}/api/categories
+Content-Type: {{contentType}}
+
+{
+  "name": "Miete",
+  "type": "Expense"
+}
+
+###
+
+### Create expense category — Transport
+POST {{baseUrl}}/api/categories
+Content-Type: {{contentType}}
+
+{
+  "name": "Transport",
+  "type": "Expense"
+}
+
+###
+
+### Create expense category — Freizeit
+POST {{baseUrl}}/api/categories
+Content-Type: {{contentType}}
+
+{
+  "name": "Freizeit",
+  "type": "Expense"
+}
+
+###
+
+### Get all categories
+GET {{baseUrl}}/api/categories
+
+###
+
+### Get single category (replace ID)
+@categoryId = 00000000-0000-0000-0000-000000000000
+GET {{baseUrl}}/api/categories/{{categoryId}}
+
+###
+
+### Update category
+PUT {{baseUrl}}/api/categories/{{categoryId}}
+Content-Type: {{contentType}}
+
+{
+  "name": "Lebensmittel & Haushalt",
+  "type": "Expense"
+}
+
+###
+
+### Delete category
+DELETE {{baseUrl}}/api/categories/{{categoryId}}
+
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  TRANSACTIONS                                                                ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+### Create transaction — Gehaltseingang März
+# @name createTx1
+POST {{baseUrl}}/api/transactions
+Content-Type: {{contentType}}
+
+{
+  "categoryId": "{{categoryId}}",
+  "amount": 3200.00,
+  "description": "Gehalt März 2026",
+  "date": "2026-03-01"
+}
+
+###
+
+### Create transaction — Supermarkt
+POST {{baseUrl}}/api/transactions
+Content-Type: {{contentType}}
+
+{
+  "categoryId": "{{categoryId}}",
+  "amount": 87.45,
+  "description": "Billa Wocheneinkauf",
+  "date": "2026-03-05"
+}
+
+###
+
+### Create transaction — Miete
+POST {{baseUrl}}/api/transactions
+Content-Type: {{contentType}}
+
+{
+  "categoryId": "{{categoryId}}",
+  "amount": 950.00,
+  "description": "Miete März",
+  "date": "2026-03-01"
+}
+
+###
+
+### Get all transactions (no filter)
+GET {{baseUrl}}/api/transactions
+
+###
+
+### Get transactions filtered by month
+GET {{baseUrl}}/api/transactions?year=2026&month=3
+
+###
+
+### Get transactions filtered by year only
+GET {{baseUrl}}/api/transactions?year=2026
+
+###
+
+### Get single transaction (replace ID)
+@transactionId = 00000000-0000-0000-0000-000000000000
+GET {{baseUrl}}/api/transactions/{{transactionId}}
+
+###
+
+### Update transaction
+PUT {{baseUrl}}/api/transactions/{{transactionId}}
+Content-Type: {{contentType}}
+
+{
+  "categoryId": "{{categoryId}}",
+  "amount": 92.30,
+  "description": "Billa Wocheneinkauf (korrigiert)",
+  "date": "2026-03-05"
+}
+
+###
+
+### Delete transaction
+DELETE {{baseUrl}}/api/transactions/{{transactionId}}
+
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  BUDGETS                                                                     ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+### Set budget — Lebensmittel März 2026
+POST {{baseUrl}}/api/budgets
+Content-Type: {{contentType}}
+
+{
+  "categoryId": "{{categoryId}}",
+  "year": 2026,
+  "month": 3,
+  "amount": 300.00
+}
+
+###
+
+### Set budget — Miete März 2026 (upsert — creates or updates)
+PUT {{baseUrl}}/api/budgets
+Content-Type: {{contentType}}
+
+{
+  "categoryId": "{{categoryId}}",
+  "year": 2026,
+  "month": 3,
+  "amount": 950.00
+}
+
+###
+
+### Set budget — Transport März 2026
+PUT {{baseUrl}}/api/budgets
+Content-Type: {{contentType}}
+
+{
+  "categoryId": "{{categoryId}}",
+  "year": 2026,
+  "month": 3,
+  "amount": 80.00
+}
+
+###
+
+### Get budgets for a specific month
+GET {{baseUrl}}/api/budgets?year=2026&month=3
+
+###
+
+### Get all budgets (no filter)
+GET {{baseUrl}}/api/budgets
+
+###
+
+### Delete budget (replace ID)
+@budgetId = 00000000-0000-0000-0000-000000000000
+DELETE {{baseUrl}}/api/budgets/{{budgetId}}
+
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  SUMMARY                                                                     ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+### Get summary for März 2026
+GET {{baseUrl}}/api/summary?year=2026&month=3
+
+###
+
+### Get summary for February 2026
+GET {{baseUrl}}/api/summary?year=2026&month=2
+
+###
+
+### Get summary — missing params (should return 400)
+GET {{baseUrl}}/api/summary
+
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  HEALTH                                                                      ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+### Health check
+GET {{baseUrl}}/health
