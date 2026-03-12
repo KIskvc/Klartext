@@ -1,4 +1,4 @@
-import { Component, input, output, model } from '@angular/core';
+import { Component, output, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CustomSelectComponent } from '../../components/custom-select/custom-select.component';
 

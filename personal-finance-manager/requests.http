@@ -191,7 +191,7 @@ DELETE {{baseUrl}}/api/transactions/{{transactionId}}
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 
 ### Set budget — Lebensmittel März 2026
-POST {{baseUrl}}/api/budgets
+PUT {{baseUrl}}/api/budgets
 Content-Type: {{contentType}}
 
 {

@@ -248,5 +248,5 @@ personal-finance-manager/
 - Pages are signal-based standalone components with local state.
 - Services are thin HTTP wrappers returning `Observable<T>`.
 - No global state library — component-level signals are sufficient for this scope.
-- Custom design system (no Angular Material) — all components from scratch.
+- Custom design system — all components from scratch.
 

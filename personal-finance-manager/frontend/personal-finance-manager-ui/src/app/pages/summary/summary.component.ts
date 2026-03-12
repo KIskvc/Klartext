@@ -56,7 +56,6 @@ export class SummaryComponent implements OnInit {
   formatDiff(diff: number | null): string {
     if (diff === null) return '–';
     const abs = Math.abs(diff);
-    const formatted = this.currencyFormatter.format(abs).replace('€', '€\u00A0').replace(/^\s+/, '');
     if (diff >= 0) {
       return `+${this.currencyFormatter.format(abs)}`;
     }
