@@ -4,6 +4,36 @@ A full-stack personal finance web application for tracking income, expenses, and
 
 ---
 
+## Screenshots
+
+### Summary
+> Monthly overview with KPI cards, category breakdown table, and top expense highlight.
+
+![Summary](personal-finance-manager/docs/screens/summary.png)
+
+---
+
+### Transactions
+> Full transaction list with year/month filter, create and edit modal.
+
+![Transactions](personal-finance-manager/docs/screens/transactions.png)
+
+---
+
+### Categories
+> Category management with type badge (Income / Expense).
+
+![Categories](personal-finance-manager/docs/screens/categories.png)
+
+---
+
+### Budgets
+> Monthly budget targets per category with inline editing.
+
+![Budgets](personal-finance-manager/docs/screens/budgets.png)
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
