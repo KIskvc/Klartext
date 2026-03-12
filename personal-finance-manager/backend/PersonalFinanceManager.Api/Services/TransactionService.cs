@@ -47,7 +47,7 @@ public class TransactionService(AppDbContext db) : ITransactionService
             Id = Guid.NewGuid(),
             CategoryId = request.CategoryId,
             Amount = request.Amount,
-            Description = request.Description.Trim(),
+            Description = string.IsNullOrWhiteSpace(request.Description) ? null : request.Description.Trim(),
             Date = request.Date,
             CreatedAt = DateTime.UtcNow
         };
@@ -71,7 +71,7 @@ public class TransactionService(AppDbContext db) : ITransactionService
 
         transaction.CategoryId = request.CategoryId;
         transaction.Amount = request.Amount;
-        transaction.Description = request.Description.Trim();
+        transaction.Description = string.IsNullOrWhiteSpace(request.Description) ? null : request.Description.Trim();
         transaction.Date = request.Date;
 
         await db.SaveChangesAsync();
@@ -97,7 +97,7 @@ public class TransactionService(AppDbContext db) : ITransactionService
         CategoryName = t.Category.Name,
         CategoryType = t.Category.Type,
         Amount = t.Amount,
-        Description = t.Description ?? string.Empty,
+        Description = t.Description,
         Date = t.Date,
         CreatedAt = t.CreatedAt
     };

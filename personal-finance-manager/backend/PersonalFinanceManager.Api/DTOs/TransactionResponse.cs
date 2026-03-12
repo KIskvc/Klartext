@@ -9,7 +9,7 @@ public class TransactionResponse
     public string CategoryName { get; set; } = string.Empty;
     public CategoryType CategoryType { get; set; }
     public decimal Amount { get; set; }
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
     public DateOnly Date { get; set; }
     public DateTime CreatedAt { get; set; }
 }

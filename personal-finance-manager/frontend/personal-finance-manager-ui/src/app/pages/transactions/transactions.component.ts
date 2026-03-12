@@ -43,7 +43,7 @@ export class TransactionsComponent implements OnInit {
   form = this.fb.group({
     categoryId: ['', Validators.required],
     amount: [null as number | null, [Validators.required, Validators.min(0.01)]],
-    description: ['', [Validators.required, Validators.maxLength(500)]],
+    description: ['', [Validators.maxLength(500)]],
     date: ['', Validators.required],
   });
 
@@ -127,7 +127,7 @@ export class TransactionsComponent implements OnInit {
     const payload = {
       categoryId: raw.categoryId!,
       amount: raw.amount!,
-      description: raw.description!,
+      description: raw.description || null,
       date: raw.date!,
     } satisfies CreateTransactionRequest;
 

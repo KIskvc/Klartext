@@ -112,7 +112,7 @@
   svg { width: 14px; height: 14px; }
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.10);
     color: var(--color-text-primary);
   }
 }
@@ -165,7 +165,7 @@
   transition: background 0.1s ease, color 0.1s ease;
 
   &:hover:not(.dp-day--selected) {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgb(248,248,248);
   }
 
   &--other {

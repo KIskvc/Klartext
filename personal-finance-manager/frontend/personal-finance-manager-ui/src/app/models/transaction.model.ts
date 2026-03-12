@@ -6,7 +6,7 @@ export interface Transaction {
   categoryName: string;
   categoryType: CategoryType;
   amount: number;
-  description: string;
+  description: string | null;
   date: string; // ISO date string: "YYYY-MM-DD"
   createdAt: string;
 }
@@ -14,13 +14,13 @@ export interface Transaction {
 export interface CreateTransactionRequest {
   categoryId: string;
   amount: number;
-  description: string;
+  description: string | null;
   date: string; // "YYYY-MM-DD"
 }
 
 export interface UpdateTransactionRequest {
   categoryId: string;
   amount: number;
-  description: string;
+  description: string | null;
   date: string; // "YYYY-MM-DD"
 }

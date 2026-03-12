@@ -154,17 +154,13 @@
         </div>
 
         <div class="field">
-          <label class="field-label">Description</label>
+          <label class="field-label">Description <span class="field-optional">optional</span></label>
           <input
             class="input-pill"
-            [class.invalid]="form.controls.description.touched && form.controls.description.invalid"
             formControlName="description"
             placeholder="e.g. Groceries at Rewe"
             autocomplete="off"
           />
-          @if (form.controls.description.touched && form.controls.description.hasError('required')) {
-            <span class="field-error">Description is required</span>
-          }
         </div>
 
         <div class="field">
@@ -198,7 +194,7 @@
         <h2>Delete Transaction</h2>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to delete <strong>{{ deletingTransaction()?.description }}</strong>? This action cannot be undone.</p>
+        <p>Are you sure you want to delete this transaction? This action cannot be undone.</p>
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost" (click)="cancelDelete()">Cancel</button>

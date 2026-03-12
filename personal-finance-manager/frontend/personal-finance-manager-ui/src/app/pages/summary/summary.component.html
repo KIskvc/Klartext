@@ -38,8 +38,8 @@
       <div class="empty-icon-wrap">
         <svg viewBox="0 0 24 24"><rect x="3" y="12" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="17" y="4" width="4" height="16" rx="1"/></svg>
       </div>
-      <p class="empty-title">Keine Daten für diesen Monat</p>
-      <p class="empty-subtitle">Füge Transaktionen hinzu um eine Übersicht zu sehen.</p>
+      <p class="empty-title">No data for this month</p>
+      <p class="empty-subtitle">Add transactions to see an overview.</p>
     </div>
   }
 
@@ -52,7 +52,7 @@
         <div class="metric-icon metric-icon--income">
           <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
         </div>
-        <span class="metric-label">Gesamteinnahmen</span>
+        <span class="metric-label">Total Income</span>
         <span class="metric-value metric-value--income">{{ formatCurrency(summary()!.totalIncome) }}</span>
       </div>
 
@@ -60,7 +60,7 @@
         <div class="metric-icon metric-icon--expense">
           <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
         </div>
-        <span class="metric-label">Gesamtausgaben</span>
+        <span class="metric-label">Total Expenses</span>
         <span class="metric-value metric-value--expense">{{ formatCurrency(summary()!.totalExpenses) }}</span>
       </div>
 
@@ -70,7 +70,7 @@
           [class.metric-icon--negative]="summary()!.balance < 0">
           <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="8" x2="19" y2="8"/><line x1="5" y1="16" x2="13" y2="16"/></svg>
         </div>
-        <span class="metric-label">Saldo</span>
+        <span class="metric-label">Balance</span>
         <span class="metric-value"
           [class.metric-value--positive]="summary()!.balance > 0"
           [class.metric-value--negative]="summary()!.balance < 0">
@@ -81,16 +81,16 @@
     </div>
 
     <!-- Category breakdown -->
-    <h2 class="section-heading">Kategorie-Aufschlüsselung</h2>
+    <h2 class="section-heading">Category Breakdown</h2>
     <div class="breakdown-wrap">
       <table class="breakdown-table">
         <thead>
           <tr>
-            <th>Kategorie</th>
-            <th>Typ</th>
-            <th class="col-amount">Betrag</th>
+            <th>Category</th>
+            <th>Type</th>
+            <th class="col-amount">Amount</th>
             <th class="col-budget">Budget</th>
-            <th class="col-diff">Differenz</th>
+            <th class="col-diff">Difference</th>
           </tr>
         </thead>
         <tbody>
@@ -101,7 +101,7 @@
                 <span class="badge"
                   [class.badge-income]="row.categoryType === 'Income'"
                   [class.badge-expense]="row.categoryType === 'Expense'">
-                  {{ row.categoryType === 'Income' ? 'Einnahme' : 'Ausgabe' }}
+                  {{ row.categoryType === 'Income' ? 'Income' : 'Expense' }}
                 </span>
               </td>
               <td class="col-amount"
@@ -137,7 +137,7 @@
           <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
         </div>
         <div class="top-expense-body">
-          <span class="top-expense-label">Größte Ausgabe</span>
+          <span class="top-expense-label">Highest Expense</span>
           <span class="top-expense-value">
             {{ summary()!.highestExpenseCategory!.categoryName }}
             <span class="top-expense-amount">{{ formatCurrency(summary()!.highestExpenseCategory!.amount) }}</span>

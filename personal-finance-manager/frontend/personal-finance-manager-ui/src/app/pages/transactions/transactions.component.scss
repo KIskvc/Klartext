@@ -16,6 +16,7 @@
   overflow: hidden;
   border: 1px solid var(--color-border);
   background: var(--color-surface);
+  box-shadow: var(--shadow-card);
 }
 
 .tx-table {
@@ -29,17 +30,20 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
     padding: 12px 16px;
-    text-align: left;
-    background: var(--color-background);
+    text-align: center;
+    background: rgba(0, 113, 227, 0.08);
     border-bottom: 1px solid var(--color-border);
   }
 
   td {
     padding: 14px 16px;
     border-bottom: 1px solid var(--color-border);
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
     color: var(--color-text-primary);
     vertical-align: middle;
+    text-align: center;
   }
 
   tbody tr:last-child td {
@@ -51,7 +55,7 @@
   transition: background var(--transition-fast);
 
   &:hover {
-    background: var(--color-background);
+    background: rgb(248,248,248);
 
     .cell-actions .icon-btn {
       opacity: 1;
@@ -76,20 +80,26 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: left;
 }
 
 .cell-amount {
-  text-align: right;
-  font-weight: 600;
+  text-align: center;
+  font-weight: 500;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 
   &.amount-income { color: #1a7a35; }
   &.amount-expense { color: var(--color-warn); }
 }
 
 th.col-amount {
-  text-align: right;
+  text-align: center;
+}
+
+th.col-desc {
+  text-align: left;
 }
 
 .cell-actions {

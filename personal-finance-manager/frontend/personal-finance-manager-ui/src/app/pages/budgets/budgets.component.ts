@@ -109,11 +109,11 @@ export class BudgetsComponent implements OnInit {
           card.savedAmount = null;
           card.inputAmount = null;
           card.saving = false;
-          this.toast.show('Budget entfernt');
+          this.toast.show('Budget removed');
         },
         error: () => {
           card.saving = false;
-          this.toast.show('Fehler beim Speichern', 'error');
+          this.toast.show('Error saving', 'error');
         },
       });
       return;
@@ -133,11 +133,11 @@ export class BudgetsComponent implements OnInit {
         card.savedAmount = budget.amount;
         card.inputAmount = budget.amount;
         card.saving = false;
-        this.toast.show('Budget gespeichert');
+        this.toast.show('Budget saved');
       },
       error: (err) => {
         card.saving = false;
-        const msg: string = err.error?.message ?? 'Fehler beim Speichern';
+        const msg: string = err.error?.message ?? 'Error saving';
         this.toast.show(msg, 'error');
       },
     });

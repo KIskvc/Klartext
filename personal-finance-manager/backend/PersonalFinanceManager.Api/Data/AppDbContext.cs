@@ -36,7 +36,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.HasOne(e => e.Category)
                   .WithMany(c => c.Transactions)
                   .HasForeignKey(e => e.CategoryId)
-                  .OnDelete(DeleteBehavior.Restrict);
+                  .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Budget>(entity =>
@@ -50,7 +50,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.HasOne(e => e.Category)
                   .WithMany(c => c.Budgets)
                   .HasForeignKey(e => e.CategoryId)
-                  .OnDelete(DeleteBehavior.Restrict);
+                  .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasIndex(e => new { e.CategoryId, e.Year, e.Month })
                   .IsUnique();

@@ -39,45 +39,127 @@ docker compose up --build
 
 ---
 
-### Without Docker (manual setup)
+### Running locally (without Docker)
+
+You need three things running: a PostgreSQL database, the backend, and the frontend.
+Open three separate terminal windows.
 
 #### Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - [Node.js 22+](https://nodejs.org/)
-- [PostgreSQL 17](https://www.postgresql.org/download/)
+- PostgreSQL — see options below
 
-#### 1. Start PostgreSQL
+---
 
-Create a database and user matching the connection string:
+#### Step 1 — Start PostgreSQL
 
-```sql
-CREATE USER pfm_user WITH PASSWORD 'pfm_password';
-CREATE DATABASE personal_finance OWNER pfm_user;
-```
+**Option A: Docker for the database only (no PostgreSQL installation needed)**
 
-Or start only the database container:
+If you have Docker Desktop, just spin up the database container and leave the rest local:
 
 ```bash
 cd personal-finance-manager
 docker compose up postgres -d
 ```
 
-#### 2. Start the Backend
+The database is now reachable on `localhost:5432`. Skip to Step 2.
+
+---
+
+**Option B: Install PostgreSQL locally**
+
+Install PostgreSQL 17:
+
+```bash
+# Windows
+winget install PostgreSQL.PostgreSQL
+
+# macOS
+brew install postgresql@17
+brew services start postgresql@17
+```
+
+During the Windows installer, set a password for the `postgres` superuser when prompted — you will need it in the next step.
+
+**Create the database and user:**
+
+Open a SQL shell. On Windows, search for **"SQL Shell (psql)"** in the Start menu. On macOS/Linux, run `psql -U postgres` in a terminal. When asked for a password, enter the one you set during installation.
+
+Once inside the psql prompt, run:
+
+```sql
+CREATE USER pfm_user WITH PASSWORD 'pfm_password';
+CREATE DATABASE personal_finance OWNER pfm_user;
+\q
+```
+
+Verify the connection string in `appsettings.Development.json` matches your setup — by default it expects `Host=localhost;Port=5432;Database=personal_finance;Username=pfm_user;Password=pfm_password`.
+
+---
+
+#### Inspecting the database with psql
+
+**When using Docker (`docker compose up postgres -d`):**
+
+Connect to the running container's psql shell:
+
+```bash
+docker exec -it personal-finance-manager-postgres-1 psql -U pfm_user -d personal_finance
+```
+
+> The container name may vary. Run `docker ps` to confirm the exact name.
+
+**When using a local PostgreSQL installation:**
+
+On Windows, open **SQL Shell (psql)** from the Start menu and press Enter through the prompts (server, database, port, username), then enter your password.
+On macOS/Linux, run:
+
+```bash
+psql -U pfm_user -d personal_finance
+```
+
+**Useful psql commands:**
+
+```sql
+-- List all tables
+\dt
+
+-- Inspect table contents
+SELECT * FROM "Categories";
+SELECT * FROM "Transactions";
+SELECT * FROM "Budgets";
+
+-- Count rows
+SELECT COUNT(*) FROM "Transactions";
+
+-- Exit
+\q
+```
+
+> Table names are quoted because EF Core creates them with an uppercase first letter. Without quotes, PostgreSQL lowercases identifiers and the query will fail.
+
+---
+
+#### Step 2 — Start the backend
 
 ```bash
 cd personal-finance-manager/backend/PersonalFinanceManager.Api
 dotnet run
 ```
 
-The API starts at `https://localhost:7xxx` / `http://localhost:5068`.
-Scalar UI is available at `http://localhost:5068/scalar/v1` (Development only).
+The API starts at `http://localhost:5068`.
+Scalar UI: `http://localhost:5068/scalar/v1`
 
-#### 3. Start the Frontend
+> On first run, `Database:RecreateOnStartup=true` (set in `appsettings.Development.json`) will automatically create all tables. No manual migration needed.
+
+---
+
+#### Step 3 — Start the frontend
 
 ```bash
 cd personal-finance-manager/frontend/personal-finance-manager-ui
-npm install
+npm install        # first time only
 npm start
 ```
 
